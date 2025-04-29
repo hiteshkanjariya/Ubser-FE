@@ -4,7 +4,6 @@ import { createRide } from '../features/rideSlice';
 
 const ConfimedRide = ({ setVehicalPanelOpen, setVehicalFound, setConfirmRidePanel }) => {
     const ride = useSelector((state) => state.ride);
-    console.log("🚀 ~ ConfimedRide ~ ride:", ride)
     const dispatch = useDispatch();
     const [vehicleData, setVehicleData] = useState({
         name: "UserGo",

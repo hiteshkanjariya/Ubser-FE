@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { userLogin } from '../features/userAuthSlice';
 
 const UserLogin = () => {
-    const [data, setData] = useState({ email: '', password: '' });
+    const [data, setData] = useState({ email: 'user@gmail.com', password: 'hitesh' });
     const [errors, setErrors] = useState({});
 
     const dispatch = useDispatch();

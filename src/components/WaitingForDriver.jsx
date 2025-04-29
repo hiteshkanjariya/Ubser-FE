@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 
 const WaitingForDriver = ({ waitingForDriverRef, ride }) => {
-    console.log("🚀 ~ WaitingForDriver ~ ride:", ride)
     const [vehicleData, setVehicleData] = useState({
         name: "UserGo",
         passengers: 4,
@@ -23,7 +22,7 @@ const WaitingForDriver = ({ waitingForDriverRef, ride }) => {
                     <h2 className='text-lg font-midum'>{ride?.caption?.firstname} </h2>
                     <h4 className='text-xl font-semibold -mt-1 -mb-1'>{ride?.caption?.vehicle?.plate}</h4>
                     <p className='text-sm text-gray-6== '>Maruti Suzuki Altp,</p>
-                    <h1 className='text-xl font-semibold'>{ride?.caption?.opt}</h1>
+                    <h1 className='text-xl font-semibold'>OTP:-{ride?.otp}</h1>
                 </div>
             </div>
             {/* Title */}

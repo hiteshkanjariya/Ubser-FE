@@ -25,6 +25,32 @@ export const confirmRide = createAsyncThunk(
         }
     }
 )
+
+export const verifyOTPandStartRide = createAsyncThunk(
+    'ride/verifyOTPandStartRide',
+    async (rideData, { rejectWithValue }) => {
+        try {
+            const response = await axiosInstance.post("/ride/start-ride", rideData);
+            return response;
+        } catch (error) {
+            return rejectWithValue(error.response.data.message || "Error occure while starting the ride")
+        }
+    }
+);
+
+export const endRide = createAsyncThunk(
+    "endRide",
+    async (rideData, { rejectWithValue }) => {
+        try {
+            const response = await axiosInstance.post("/ride/end-ride", rideData);
+            return response;
+        } catch (error) {
+            return rejectWithValue(error?.response?.data.message || "Error occure while ending the ride")
+        }
+    }
+);
+
+
 const rideSlice = createSlice({
     name: 'ride',
     initialState: {
@@ -36,6 +62,8 @@ const rideSlice = createSlice({
         error: null,
         fare: null,
         loading: false,
+        verifyOTPLoading: false,
+        endRideLoading: false,
     },
     reducers: {
         setPickup: (state, action) => {
@@ -67,6 +95,7 @@ const rideSlice = createSlice({
             })
             .addCase(createRide.fulfilled, (state, action) => {
                 state.rideDetails = action.payload;
+                state.loading = false;
             })
             .addCase(createRide.rejected, (state, action) => {
                 state.loading = false;
@@ -83,6 +112,29 @@ const rideSlice = createSlice({
             .addCase(confirmRide.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
+                state.error = action.payload || 'Something went wrong';
+            })
+            .addCase(verifyOTPandStartRide.pending, (state) => {
+                state.verifyOTPLoading = true;
+            })
+            .addCase(verifyOTPandStartRide.fulfilled, (state, action) => {
+                state.verifyOTPLoading = false;
+                state.error = action.payload || 'Something went wrong';
+            })
+            .addCase(verifyOTPandStartRide.rejected, (state, action) => {
+                state.verifyOTPLoading = false;
+                state.error = action.payload || 'Something went wrong';
+            })
+            .addCase(endRide.pending, (state) => {
+                state.endRideLoading = true;
+            })
+            .addCase(endRide.fulfilled, (state, action) => {
+                state.endRideLoading = false;
+                state.error = action.payload || 'Something went wrong';
+            })
+            .addCase(endRide.rejected, (state, action) => {
+                state.endRideLoading = false;
+                state.error = action.payload || 'Something went wrong';
             })
     }
 });

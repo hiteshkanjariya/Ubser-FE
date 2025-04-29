@@ -110,7 +110,9 @@ const CaptionHome = () => {
                 />
             </div>
             <div ref={confirmRidePopupPanelRef} className='fixed h-screen w-full z-10 bottom-0 translate-y-full  bg-white p-8'>
-                <ConfirmRidePopup setConfirmRightPopupPanel={setConfirmRightPopupPanel} setRightPopupPanel={setRightPopupPanel} />
+                <ConfirmRidePopup
+                    ride={ride}
+                    setConfirmRightPopupPanel={setConfirmRightPopupPanel} setRightPopupPanel={setRightPopupPanel} />
             </div>
 
         </div >

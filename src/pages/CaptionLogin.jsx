@@ -5,11 +5,10 @@ import { captionLogin } from '../features/captionAuthSlice';
 
 const CaptionLogin = () => {
     const [data, setData] = useState({
-        email: "",
-        password: "",
+        email: "caption@gmail.com",
+        password: "caption",
     });
     const [errors, setErrors] = useState({});
-    console.log("🚀 ~ CaptionLogin ~ data:", data)
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { error, isLoading } = useSelector((state) => state.caption);

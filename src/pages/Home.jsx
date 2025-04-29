@@ -13,11 +13,12 @@ import debounce from 'lodash/debounce';
 import { setDestination, setPickup } from '../features/rideSlice';
 import { connectSocket, disconnectSocket } from '../features/socketSlice';
 import { socket } from "../features/socketSlice"
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
   const [data, setData] = useState({
-    pickup: "",
-    destination: ""
+    pickup: "jamnaga",
+    destination: "rajkot"
   });
   const [panelOpen, setPanelOpen] = useState(false);
   const panelRef = useRef(null);
@@ -35,7 +36,7 @@ const Home = () => {
   const user = useSelector((state) => state.user.user)
   const [focusField, setFocusField] = useState(''); // 'pickup' or 'destination'
   // debounce search function
-
+  const navigate = useNavigate();
   const handlechage = (e) => {
     setPanelOpen(true);
     const name = e.target.name;
@@ -164,11 +165,27 @@ const Home = () => {
   useEffect(() => {
     if (!socket) return;
     socket.on('ride-confirm', (ride) => {
+      console.log("🚀 ~ socket.on ~ ride:", ride)
       setWatingForDriver(true);
       setRide(ride);
       setVehicalFound(false);
     });
   }, []);
+
+  useEffect(() => {
+    if (!socket) return;
+
+    const handleRideStarted = (data) => {
+      setWatingForDriver(false);
+      navigate("/riding", { state: { ride: data } });
+    };
+
+    socket.on('ride-started', handleRideStarted);
+
+    return () => {
+      socket.off('ride-started', handleRideStarted);
+    };
+  }, [navigate]);
 
   return (
     <div className='h-screen relative overflow-hidden'>
